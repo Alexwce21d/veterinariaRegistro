@@ -1,7 +1,7 @@
-
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,7 +14,9 @@ public class veterinariaRegistro {
         while (true) {
             System.out.println("1. Registrar cliente");
             System.out.println("2. Mostrar clientes registrados");
-            System.out.println("3. Salir");
+            System.out.println("3. Importar archivo");
+            System.out.println("4. Salir");
+         
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
             scanner.nextLine(); // Limpiar el buffer
@@ -26,7 +28,10 @@ public class veterinariaRegistro {
                 case 2:
                     mostrarClientes();
                     break;
-                case 3:
+                case 3: 
+                    importarArchivo();
+                    break;
+                case 4:
                     System.out.println("Saliendo del programa...");
                     return;
                 default:
@@ -67,6 +72,28 @@ public class veterinariaRegistro {
         } catch (IOException e) {
             System.err.println("Error al leer el archivo.");
             e.printStackTrace();
+        }
+    }
+    
+    
+    private static void importarArchivo() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el nombre del archivo a importar: ");
+        String nombreArchivo = scanner.nextLine();
+        
+        var archivo = new File(nombreArchivo);
+        try {
+            var entrada = new BufferedReader(new FileReader(archivo));
+            var lectura = entrada.readLine();
+            while (lectura != null) {
+                System.out.println("lectura = " + lectura);
+                lectura = entrada.readLine();
+            }
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace(System.out);
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
         }
     }
 }
